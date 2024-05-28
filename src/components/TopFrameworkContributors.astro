@@ -1,0 +1,103 @@
+---
+import { request } from "@octokit/request";
+import FrameworkCard from "./FrameworkCard.astro";
+
+interface Props {
+	githubToken: string;
+}
+
+const { githubToken } = Astro.props;
+
+const FRAMEWORKS = [
+  { owner: "angular", repo: "angular" },
+  { owner: "facebook", repo: "react" },
+  { owner: "gatsbyjs", repo: "gatsby" },
+  { owner: "nuxt", repo: "nuxt" },
+  { owner: "preactjs", repo: "preact" },
+  { owner: "QwikDev", repo: "qwik" },
+  { owner: "redwoodjs", repo: "redwood" },
+  { owner: "remix-run", repo: "remix" },
+  { owner: "solidjs", repo: "solid" },
+  { owner: "solidjs", repo: "solid-start" },
+  { owner: "sveltejs", repo: "kit" },
+  { owner: "sveltejs", repo: "svelte" },
+  { owner: "vercel", repo: "next.js" },
+  { owner: "withastro", repo: "astro" },
+];
+const MIN_CONTRIBUTIONS = 50;
+const MAX_CONTRIBUTORS = 10;
+const MIN_CONTRIBUTOR_SCORE = 0.05;
+
+const isBotLogin = (login: string): boolean => {
+  return (
+    login.includes("[bot]") || login.includes("-bot") || login.includes("bot-")
+  );
+};
+
+const getContributorsForRepo = async ({
+  owner,
+  repo,
+}: {
+  owner: string;
+  repo: string;
+}) => {
+  const { data } = await request("GET /repos/{owner}/{repo}/contributors", {
+    owner,
+    repo,
+    per_page: 30,
+    headers: {
+      authorization: `token ${githubToken}`,
+    },
+  });
+  const totalContributionsInBatch = data.reduce(
+    (acc, { contributions }) => acc + contributions,
+    0
+  );
+  return data
+    .map(({ login, contributions }) => ({
+      login: login!, // can only be nil if we pass `anon=1`
+      url: `https://github.com/${login!}`,
+      contributions,
+      contributorScore: contributions / totalContributionsInBatch,
+    }))
+    .filter(({ login }) => !isBotLogin(login))
+    .filter(
+      ({ contributions, contributorScore }) =>
+        contributions > MIN_CONTRIBUTIONS &&
+        contributorScore > MIN_CONTRIBUTOR_SCORE
+    )
+    .slice(0, MAX_CONTRIBUTORS);
+};
+
+const contributorsByFramework = await Promise.all(
+  FRAMEWORKS.map(async ({ owner, repo }) => {
+    const contributors = await getContributorsForRepo({ owner, repo });
+    return {
+    	repoSlug: `${owner}/${repo}`,
+    	repoUrl: `https://github.com/${owner}/${repo}`,
+    	contributors,
+    };
+  })
+);
+---
+{Object.keys(contributorsByFramework).length > 0 ? 
+	<ul role="list" class="card-grid">
+  	{contributorsByFramework.map(({ repoSlug, repoUrl, contributors }) => (
+    	<FrameworkCard
+    		repoUrl={repoUrl}
+    		repoSlug={repoSlug}
+    		contributors={contributors}
+    	>
+    	</FrameworkCard>
+  	))}
+	</ul>
+: "Hmm, no contributors found."}
+
+<style>
+	.card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+		gap: 2rem;
+		padding: 0;
+	}
+</style>

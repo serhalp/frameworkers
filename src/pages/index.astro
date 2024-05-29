@@ -17,26 +17,21 @@ Astro.response.headers.set(
 		<h2>The top contributors to front-end frameworks</h2>
 		<TopFrameworkContributors githubToken={import.meta.env.GITHUB_API_TOKEN} />
 	</main>
+	<footer>
+		<a href="https://github.com/serhalp/frameworkers">
+			<img class="github-logo" src="/github-logo.png" alt="GitHub logo" />
+		</a>
+	</footer>
 </Layout>
 
 <style>
 	main {
 		margin: auto;
 		padding: 1rem;
-		width: 800px;
 		max-width: calc(100% - 2rem);
 		color: white;
 		font-size: 20px;
 		line-height: 1.6;
-	}
-	.astro-a {
-		position: absolute;
-		top: -32px;
-		left: 50%;
-		transform: translatex(-50%);
-		width: 220px;
-		height: auto;
-		z-index: -1;
 	}
 	h1 {
 		font-size: 4rem;
@@ -57,5 +52,12 @@ Astro.response.headers.set(
 		-webkit-text-fill-color: transparent;
 		background-size: 400%;
 		background-position: 0%;
+	}
+	footer {
+		text-align: center;
+		margin-top: 2rem;
+	}
+	footer .github-logo {
+		width: 3rem;
 	}
 </style>

@@ -94,21 +94,29 @@ const contributorsByFramework = await Promise.all(
 {Object.keys(contributorsByFramework).length > 0 ? 
 	<ul role="list" class="card-grid">
   	{contributorsByFramework.map(({ repoSlug, repoUrl, contributors }) => (
-    	<FrameworkCard
-    		repoUrl={repoUrl}
-    		repoSlug={repoSlug}
-    		contributors={contributors}
-    	>
-    	</FrameworkCard>
+			<li class="card-grid-item">
+				<FrameworkCard
+					repoUrl={repoUrl}
+					repoSlug={repoSlug}
+					contributors={contributors}
+				/>
+			</li>
   	))}
 	</ul>
 : "Hmm, no contributors found."}
 
 <style>
 	.card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
 		gap: 2rem;
 		padding: 0;
+	}
+	.card-grid-item {
+		list-style: none;
+    flex: 1 1 24ch;
+    min-width: 24ch;
+    box-sizing: border-box;
 	}
 </style>

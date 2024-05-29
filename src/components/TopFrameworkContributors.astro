@@ -9,19 +9,29 @@ interface Props {
 const { githubToken } = Astro.props;
 
 const FRAMEWORKS = [
+  { owner: "11ty", repo: "eleventy" },
+  { owner: "analogjs", repo: "analog" },
   { owner: "angular", repo: "angular" },
+  { owner: "denoland", repo: "fresh" },
   { owner: "facebook", repo: "react" },
   { owner: "gatsbyjs", repo: "gatsby" },
+  { owner: "gohugoio", repo : "hugo" },
+  { owner: "jekyll", repo: "jekyll" },
+  { owner: "marko-js", repo: "marko" },
   { owner: "nuxt", repo: "nuxt" },
   { owner: "preactjs", repo: "preact" },
   { owner: "QwikDev", repo: "qwik" },
   { owner: "redwoodjs", repo: "redwood" },
+  { owner: "remix-run", repo: "react-router" },
   { owner: "remix-run", repo: "remix" },
+  { owner: "Shopify", repo: "hydrogen" },
   { owner: "solidjs", repo: "solid" },
   { owner: "solidjs", repo: "solid-start" },
   { owner: "sveltejs", repo: "kit" },
   { owner: "sveltejs", repo: "svelte" },
   { owner: "vercel", repo: "next.js" },
+  { owner: "vitejs", repo: "vite" },
+  { owner: "vuejs", repo: "core" },
   { owner: "withastro", repo: "astro" },
 ];
 const MIN_CONTRIBUTIONS = 50;

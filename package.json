@@ -1,5 +1,6 @@
 {
   "name": "frameworkers",
+  "description": "Frameworkers: the top contributors to front-end frameworks",
   "type": "module",
   "version": "0.0.1",
   "scripts": {

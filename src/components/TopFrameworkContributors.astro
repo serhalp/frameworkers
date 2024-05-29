@@ -40,7 +40,8 @@ const MIN_CONTRIBUTOR_SCORE = 0.05;
 
 const isBotLogin = (login: string): boolean => {
   return (
-    login.includes("[bot]") || login.includes("-bot") || login.includes("bot-")
+    login.includes("[bot]") || login.includes("-bot") || login.includes("bot-") ||
+    login.endsWith("bot")
   );
 };
 

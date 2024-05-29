@@ -1,6 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import TopFrameworkContributors from '../components/TopFrameworkContributors.astro';
+
+export const prerender = false;
+
+Astro.response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+// Only update the CDN cache if it's older than 24 hours
+Astro.response.headers.set(
+  "Netlify-CDN-Cache-Control", "public, max-age=86400, stale-while-revalidate=604800"
+);
 ---
 
 <Layout title="Frameworkers">

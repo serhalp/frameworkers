@@ -1,12 +1,12 @@
 ---
 interface Props {
-	login: string;
-	url: string;
-	contributions: number;
-	contributorScore: number;
+  login: string;
+  url: string;
+  contributions: number;
+  contributorScore: number;
 }
 
-const {login, url, contributions, contributorScore} = Astro.props;
+const { login, url, contributions, contributorScore } = Astro.props;
 ---
 
 <a href={url}>
@@ -17,9 +17,9 @@ const {login, url, contributions, contributorScore} = Astro.props;
 {" "}
 <span>{`(${Math.round(contributorScore * 100)}%)`}</span>
 <style>
-	a {
-		text-decoration: none;
-		color: white;
-		opacity: 0.8;
-	}
+  a {
+    text-decoration: none;
+    color: white;
+    opacity: 0.8;
+  }
 </style>

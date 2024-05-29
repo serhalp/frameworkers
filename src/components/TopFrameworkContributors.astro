@@ -3,7 +3,7 @@ import { request } from "@octokit/request";
 import FrameworkCard from "./FrameworkCard.astro";
 
 interface Props {
-	githubToken: string;
+  githubToken: string;
 }
 
 const { githubToken } = Astro.props;
@@ -15,7 +15,7 @@ const FRAMEWORKS = [
   { owner: "denoland", repo: "fresh" },
   { owner: "facebook", repo: "react" },
   { owner: "gatsbyjs", repo: "gatsby" },
-  { owner: "gohugoio", repo : "hugo" },
+  { owner: "gohugoio", repo: "hugo" },
   { owner: "jekyll", repo: "jekyll" },
   { owner: "marko-js", repo: "marko" },
   { owner: "nuxt", repo: "nuxt" },
@@ -40,7 +40,9 @@ const MIN_CONTRIBUTOR_SCORE = 0.05;
 
 const isBotLogin = (login: string): boolean => {
   return (
-    login.includes("[bot]") || login.includes("-bot") || login.includes("bot-") ||
+    login.includes("[bot]") ||
+    login.includes("-bot") ||
+    login.includes("bot-") ||
     login.endsWith("bot")
   );
 };
@@ -62,7 +64,7 @@ const getContributorsForRepo = async ({
   });
   const totalContributionsInBatch = data.reduce(
     (acc, { contributions }) => acc + contributions,
-    0
+    0,
   );
   return data
     .map(({ login, contributions }) => ({
@@ -75,7 +77,7 @@ const getContributorsForRepo = async ({
     .filter(
       ({ contributions, contributorScore }) =>
         contributions > MIN_CONTRIBUTIONS &&
-        contributorScore > MIN_CONTRIBUTOR_SCORE
+        contributorScore > MIN_CONTRIBUTOR_SCORE,
     )
     .slice(0, MAX_CONTRIBUTORS);
 };
@@ -84,39 +86,44 @@ const contributorsByFramework = await Promise.all(
   FRAMEWORKS.map(async ({ owner, repo }) => {
     const contributors = await getContributorsForRepo({ owner, repo });
     return {
-    	repoSlug: `${owner}/${repo}`,
-    	repoUrl: `https://github.com/${owner}/${repo}`,
-    	contributors,
+      repoSlug: `${owner}/${repo}`,
+      repoUrl: `https://github.com/${owner}/${repo}`,
+      contributors,
     };
-  })
+  }),
 );
 ---
-{Object.keys(contributorsByFramework).length > 0 ? 
-	<ul role="list" class="card-grid">
-  	{contributorsByFramework.map(({ repoSlug, repoUrl, contributors }) => (
-			<li class="card-grid-item">
-				<FrameworkCard
-					repoUrl={repoUrl}
-					repoSlug={repoSlug}
-					contributors={contributors}
-				/>
-			</li>
-  	))}
-	</ul>
-: "Hmm, no contributors found."}
+
+{
+  Object.keys(contributorsByFramework).length > 0 ? (
+    <ul role="list" class="card-grid">
+      {contributorsByFramework.map(({ repoSlug, repoUrl, contributors }) => (
+        <li class="card-grid-item">
+          <FrameworkCard
+            repoUrl={repoUrl}
+            repoSlug={repoSlug}
+            contributors={contributors}
+          />
+        </li>
+      ))}
+    </ul>
+  ) : (
+    "Hmm, no contributors found."
+  )
+}
 
 <style>
-	.card-grid {
+  .card-grid {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-		gap: 2rem;
-		padding: 0;
-	}
-	.card-grid-item {
-		list-style: none;
+    gap: 2rem;
+    padding: 0;
+  }
+  .card-grid-item {
+    list-style: none;
     flex: 1 1 24ch;
     min-width: 24ch;
     box-sizing: border-box;
-	}
+  }
 </style>

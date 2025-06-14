@@ -8,6 +8,7 @@
     "build": "astro check && astro build",
     "dev": "astro dev",
     "format": "prettier --write  \"**/*.{json,ts,mjs,cjs,md,astro}\" \"**/.*.{json,ts,mjs,cjs,md,astro}\"",
+    "format:check": "prettier --check \"**/*.{json,ts,mjs,cjs,md,astro}\" \"**/.*.{json,ts,mjs,cjs,md,astro}\"",
     "lint": "eslint --fix \"**/*.{ts,mjs,cjs,astro}\" \"**/.*.{ts,mjs,cjs,astro}\"",
     "preview": "astro preview",
     "start": "astro dev",

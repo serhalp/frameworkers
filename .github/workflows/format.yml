@@ -1,4 +1,4 @@
-name: Format
+name: Check formatting
 
 on:
   push:
@@ -23,4 +23,4 @@ jobs:
       run: npm ci
 
     - name: Run format
-      run: npm run format
+      run: npm run format:check

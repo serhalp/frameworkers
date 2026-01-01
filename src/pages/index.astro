@@ -16,52 +16,28 @@ Astro.response.headers.set(
 ---
 
 <Layout title="Frameworkers">
-  <main>
-    <h1>Frame<span class="text-gradient">workers</span></h1>
-    <h2>The top contributors to front-end frameworks</h2>
+  <main class="page">
+    <header class="hero">
+      <h1>Frame<span class="text-gradient">workers</span></h1>
+      <p class="subhead">The top contributors to front-end frameworks</p>
+    </header>
     <TopFrameworkContributors githubToken={import.meta.env.GITHUB_API_TOKEN} />
   </main>
-  <footer>
-    <a href="https://github.com/serhalp/frameworkers">
-      <img class="github-logo" src="/github-logo.png" alt="GitHub logo" />
+  <footer class="site-footer">
+    <a
+      class="icon-link"
+      href="https://github.com/serhalp/frameworkers"
+      aria-label="View source on GitHub"
+    >
+      <img src="/github-logo.png" alt="" />
     </a>
   </footer>
 </Layout>
 
 <style>
-  main {
-    margin: auto;
-    padding: 1rem;
-    max-width: calc(100% - 2rem);
-    color: white;
-    font-size: 20px;
-    line-height: 1.6;
-  }
-  h1 {
-    font-size: 4rem;
-    font-weight: 700;
-    line-height: 1;
-    text-align: center;
-    margin-bottom: 0.25em;
-  }
-  h2 {
-    font-size: 1.5rem;
-    text-align: center;
-    font-style: italic;
-    margin-bottom: 1em;
-  }
-  .text-gradient {
-    background-image: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 400%;
-    background-position: 0%;
-  }
-  footer {
-    text-align: center;
-    margin-top: 2rem;
-  }
-  footer .github-logo {
-    width: 3rem;
+  main.page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
   }
 </style>

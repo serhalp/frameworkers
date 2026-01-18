@@ -1,0 +1,176 @@
+:root {
+  --accent: 125, 95, 255;
+  --accent-2: 92, 205, 255;
+  --accent-gradient: linear-gradient(
+    120deg,
+    rgb(var(--accent)),
+    rgb(var(--accent-2)) 35%,
+    #ffffff 75%
+  );
+
+  --bg: #0b1020;
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-2: rgba(255, 255, 255, 0.09);
+  --border: rgba(255, 255, 255, 0.12);
+  --border-2: rgba(255, 255, 255, 0.18);
+  --text: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.7);
+  --muted-2: rgba(255, 255, 255, 0.55);
+
+  --shadow-lg: 0 24px 70px rgba(0, 0, 0, 0.55);
+  --shadow-md: 0 12px 40px rgba(0, 0, 0, 0.45);
+
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+
+  --container: 1100px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 900px at 15% -10%, rgba(125, 95, 255, 0.38), transparent
+          60%),
+    radial-gradient(900px 700px at 85% -5%, rgba(92, 205, 255, 0.22), transparent
+          55%),
+    radial-gradient(800px 600px at 50% 115%, rgba(125, 95, 255, 0.12), transparent
+          45%),
+    var(--bg);
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3.25rem 1rem 2.25rem;
+  gap: 1.5rem;
+}
+
+.app-shell > * {
+  width: min(var(--container), 100%);
+}
+
+a {
+  color: inherit;
+}
+
+a:hover {
+  color: rgba(255, 255, 255, 0.98);
+}
+
+:focus-visible {
+  outline: 2px solid rgba(var(--accent-2), 0.9);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: rgba(var(--accent-2), 0.25);
+}
+
+.text-gradient {
+  background-image: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+}
+
+.badge::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    120deg,
+    rgba(var(--accent), 0.95),
+    rgba(var(--accent-2), 0.95)
+  );
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+
+.hero {
+  text-align: center;
+  padding: 1.5rem 0 1rem;
+}
+
+.hero h1 {
+  margin: 0.75rem 0 0.5rem;
+  font-size: clamp(2.75rem, 6vw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.hero .subhead {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1.55;
+}
+
+.site-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
+
+.icon-link {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.22);
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.icon-link:hover {
+  transform: translateY(-1px);
+  border-color: var(--border-2);
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.icon-link img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.92;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-link {
+    transition: none;
+  }
+}

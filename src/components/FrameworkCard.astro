@@ -4,6 +4,7 @@ import FrameworkContributor from "./FrameworkContributor.astro";
 interface Contributor {
   login: string;
   url: string;
+  avatarUrl: string;
   contributions: number;
   contributorScore: number;
 }
@@ -17,59 +18,103 @@ interface Props {
 const { repoUrl, repoSlug, contributors } = Astro.props;
 ---
 
-<div class="card">
-  <a href={repoUrl}>
-    <h2>
-      {repoSlug}
-      <span>&rarr;</span>
-    </h2>
-  </a>
-  <div class="contributors">
+<article class="card">
+  <header class="card-header">
+    <a class="repo-link" href={repoUrl}>
+      <h2 class="repo-title">
+        <span class="repo-slug">{repoSlug}</span>
+        <span class="repo-arrow" aria-hidden="true">&rarr;</span>
+      </h2>
+    </a>
+  </header>
+  <ul class="contributors" role="list">
     {
       contributors.map((contributor) => (
-        <div class="contributor">
+        <li class="contributor">
           <FrameworkContributor {...contributor} />
-        </div>
+        </li>
       ))
     }
-  </div>
-</div>
+  </ul>
+</article>
 <style>
   .card {
     display: flex;
     flex-direction: column;
-    padding: 1px;
-    background-color: #23262d;
-    background-image: none;
-    background-size: 400%;
-    border-radius: 7px;
-    background-position: 100%;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      background-color 180ms ease;
   }
-  .card > a {
+
+  .card-header {
+    padding: 1.1rem 1.1rem 0.65rem;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0)
+    );
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .repo-link {
+    display: block;
     text-decoration: none;
-    line-height: 1.4;
-    padding: calc(1.5rem - 1px);
-    border-radius: 8px;
-    color: white;
-    background-color: #23262d;
-    opacity: 0.8;
+    color: var(--text);
   }
-  h2 {
+
+  .repo-title {
     margin: 0;
-    font-size: 1.25rem;
-    transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    font-size: 1.05rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
   }
+
+  .repo-slug {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .repo-arrow {
+    color: var(--muted-2);
+    flex: 0 0 auto;
+  }
+
   .contributors {
-    margin: 0.5rem;
+    margin: 0;
+    padding: 0.85rem 1.1rem 1.1rem;
     display: flex;
     flex-direction: column;
+    gap: 0.4rem;
   }
+
+  .contributor {
+    list-style: none;
+  }
+
   .card:is(:hover, :focus-within) {
-    background-position: 0;
-    background-image: var(--accent-gradient);
+    transform: translateY(-2px);
+    border-color: rgba(var(--accent-2), 0.35);
+    background: var(--surface-2);
   }
-  .card:is(:hover, :focus-within) h2 {
-    color: rgb(var(--accent-light));
+
+  .card:is(:hover, :focus-within) .repo-arrow {
+    color: rgba(var(--accent-2), 0.85);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card {
+      transition: none;
+    }
   }
 </style>

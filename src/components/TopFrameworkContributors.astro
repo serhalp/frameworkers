@@ -29,9 +29,11 @@ const FRAMEWORKS = [
   { owner: "solidjs", repo: "solid-start" },
   { owner: "sveltejs", repo: "kit" },
   { owner: "sveltejs", repo: "svelte" },
+  { owner: "TanStack", repo: "router" },
   { owner: "vercel", repo: "next.js" },
   { owner: "vitejs", repo: "vite" },
   { owner: "vuejs", repo: "core" },
+  { owner: "wakujs", repo: "waku" },
   { owner: "withastro", repo: "astro" },
 ];
 const MIN_CONTRIBUTIONS = 50;
@@ -67,9 +69,10 @@ const getContributorsForRepo = async ({
     0,
   );
   return data
-    .map(({ login, contributions }) => ({
+    .map(({ login, contributions, avatar_url }) => ({
       login: login!, // can only be nil if we pass `anon=1`
       url: `https://github.com/${login!}`,
+      avatarUrl: avatar_url ?? `https://github.com/${login!}.png?size=56`,
       contributions,
       contributorScore: contributions / totalContributionsInBatch,
     }))
@@ -114,16 +117,13 @@ const contributorsByFramework = await Promise.all(
 
 <style>
   .card-grid {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
     padding: 0;
+    margin: 0;
   }
   .card-grid-item {
     list-style: none;
-    flex: 1 1 24ch;
-    min-width: 24ch;
-    box-sizing: border-box;
   }
 </style>

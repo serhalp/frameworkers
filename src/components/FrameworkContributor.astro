@@ -2,24 +2,89 @@
 interface Props {
   login: string;
   url: string;
+  avatarUrl: string;
   contributions: number;
   contributorScore: number;
 }
 
-const { login, url, contributions, contributorScore } = Astro.props;
+const { login, url, avatarUrl, contributions, contributorScore } = Astro.props;
 ---
 
-<a href={url}>
-  {login}
+<a class="contributor" href={url}>
+  <img
+    class="avatar"
+    src={avatarUrl}
+    alt={`@${login} avatar`}
+    width="28"
+    height="28"
+    loading="lazy"
+    decoding="async"
+  />
+  <span class="login">{login}</span>
+  <span class="meta">
+    <span class="count">{contributions}</span>
+    <span class="pct">{`${Math.round(contributorScore * 100)}%`}</span>
+  </span>
 </a>
-{": "}
-<span>{contributions}</span>
-{" "}
-<span>{`(${Math.round(contributorScore * 100)}%)`}</span>
 <style>
-  a {
+  .contributor {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.6rem;
     text-decoration: none;
-    color: white;
-    opacity: 0.8;
+    color: var(--text);
+    padding: 0.45rem 0.55rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .contributor:hover {
+    background: rgba(0, 0, 0, 0.22);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .avatar {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .login {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.98rem;
+  }
+
+  .meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+
+  .count {
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 0.88rem;
+  }
+
+  .pct {
+    color: var(--muted-2);
+    font-size: 0.88rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contributor {
+      transition: none;
+    }
   }
 </style>
